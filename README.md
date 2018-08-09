@@ -1,39 +1,23 @@
-# Project Name
+Project Name:
+AirGB
 
-> Project description
+Overview:
 
-## Related Projects
+curl -X GET http://localhost:3002/api/listing/:listingid/overview
+{"total":94,"accuracy":1.5,"communication":2,"cleanliness":3,"location":2.5,"check_in":3.5,"_value":3,"avg":2.5}
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+curl -X POST http://localhost:3002/api/listing/:listingid/overview
 
-## Table of Contents
+curl -X DELETE http://localhost:3002/api/listing/:listingid/overview
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+curl -X PUT http://localhost:3002/api/listing/:listingid/overview
 
-## Usage
+Reviews:
 
-> Some usage instructions
+curl -X GET http://localhost:3002/api/listing/:listingid/reviews
 
-## Requirements
+curl -X POST http://localhost:3002/api/listing/:listingid/reviews
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
+curl -X DELETE http://localhost:3002/api/listing/:listingid/reviews
 
-- Node 6.13.0
-- etc
-
-## Development
-
-### Installing Dependencies
-
-From within the root directory:
-
-```sh
-npm install -g webpack
-npm install
-```
-
+curl -X PUT http://localhost:3002/api/listing/:listingid/reviews
