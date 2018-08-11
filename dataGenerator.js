@@ -108,7 +108,7 @@ const reviews = () => {
   console.log('generating reviews');
   const out = fs.createWriteStream('./reviews.csv', { flag: 'a' }); // flag: 'a' = append
 
-  for (let i = 0; i < 10000000; i += 1) {
+  for (let i = 1; i <= 10000000; i += 1) {
     const listingId = randomNumGen(10000000) + 1;
     const userId = randomNumGen(10000000) + 1;
     const accuracy = randomNumGen(5);
@@ -162,4 +162,20 @@ const reviews = () => {
   }
 };
 
-reviews();
+// reviews();
+
+
+const users = () => {
+  const out = fs.createWriteStream('./users.csv', { flag: 'a' });
+
+  console.log('generating users');
+
+  for (let i = 1; i <= 10000000; i += 1) {
+    const name = faker.name.firstName();
+    const photo = faker.image.avatar();
+    const sequence = `${i},${name},${photo}\n`
+    out.write(sequence, 'utf-8');
+  }
+};
+
+users();
