@@ -81,6 +81,7 @@ const listings = () => {
     }
   }
 };
+
 // listings();
 
 // fs.writeFile('listingNames.csv',"listing name \n", (err)=> {
