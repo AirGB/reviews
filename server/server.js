@@ -1,38 +1,47 @@
-
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const db = require('../database/operations.js');
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const db = require("../database/operations.js");
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, '/../client/dist')));
+app.use(express.static(path.join(__dirname, "/../client/dist")));
 
 // app.get('/', (req, res) => res.send('Hello World!'));
 
-app.get('/api/listing/:listingid/overview', (req, res) => {
+app.get("/api/listing/:listingid/overview", (req, res) => {
   const listing_id = Number(req.params.listingid);
   console.log(listing_id);
   let ratingsObj = {};
-  
 
   db.getRatings(listing_id, function(err, results) {
     if (err) {
-      console.log('err in server - overview: ', err)
+      console.log("err in server - overview: ", err);
       return;
     }
 
     ratingsObj.total = results.length;
-    ratingsObj.accuracy = Math.round((Math.random() * (4 - 1) + 1) * 2)/2;
-    ratingsObj.communication = Math.round((Math.random() * (4 - 1) + 1) * 2)/2;
-    ratingsObj.cleanliness = Math.round((Math.random() * (4 - 1) + 1) * 2)/2;
-    ratingsObj.location = Math.round((Math.random() * (4 - 1) + 1) * 2)/2;
-    ratingsObj.check_in = Math.round((Math.random() * (4 - 1) + 1) * 2)/2;
-    ratingsObj._value = Math.round((Math.random() * (4 - 1) + 1) * 2)/2;
-    ratingsObj.avg = Math.round(((ratingsObj.accuracy + ratingsObj.communication + ratingsObj.cleanliness + ratingsObj.location + ratingsObj.check_in + ratingsObj._value) / 6) * 2) /2; 
+    ratingsObj.accuracy = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    ratingsObj.communication =
+      Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    ratingsObj.cleanliness = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    ratingsObj.location = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    ratingsObj.check_in = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    ratingsObj._value = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    ratingsObj.avg =
+      Math.round(
+        ((ratingsObj.accuracy +
+          ratingsObj.communication +
+          ratingsObj.cleanliness +
+          ratingsObj.location +
+          ratingsObj.check_in +
+          ratingsObj._value) /
+          6) *
+          2
+      ) / 2;
     // results.forEach(function(ratings) {
     //   ratingsObj.avg += ratings.accuracy;
     //   ratingsObj.accuracy += ratings.accuracy;
@@ -61,13 +70,13 @@ app.get('/api/listing/:listingid/overview', (req, res) => {
   });
 });
 
-app.get('/api/listing/:listingid/reviews', (req, res) => {
+app.get("/api/listing/:listingid/reviews", (req, res) => {
   const listing_id = Number(req.params.listingid);
   console.log(listing_id);
 
   db.getReviews(listing_id, function(err, results) {
     if (err) {
-      console.log('err in server - reviews: ', err)
+      console.log("err in server - reviews: ", err);
       return;
     }
 
@@ -75,6 +84,6 @@ app.get('/api/listing/:listingid/reviews', (req, res) => {
   });
 });
 
-app.listen(3002, console.log('Listening on port 3002'));
+app.listen(3002, console.log("Listening on port 3002"));
 
 module.exports = app;
