@@ -27,7 +27,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getRatings();
-    // this.getReviews();
+    this.getReviews();
   }
 
   onPageChanged(data) {
@@ -35,6 +35,7 @@ class App extends React.Component {
     const { currentPage, totalPages, pageLimit } = data;
 
     const offset = (currentPage - 1) * pageLimit;
+    console.log("offset", offset);
     const currentReviews = allReviews.slice(offset, offset + pageLimit);
 
     this.setState({ currentPage, currentReviews, totalPages });
@@ -47,6 +48,7 @@ class App extends React.Component {
     axios
       .get(`http://localhost:3002/api/listing/${listing_id}/reviews`)
       .then(function(response) {
+        console.log("im response", response.data);
         self.setState({ allReviews: response.data });
       })
       .catch(function(err) {

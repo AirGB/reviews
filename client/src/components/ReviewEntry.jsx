@@ -1,38 +1,36 @@
+import React from "react";
 
-import React from 'react';
+import CSSModules from "react-css-modules";
 
-import CSSModules from 'react-css-modules';
+import styles from "./reviewEntryStyles.css";
 
-import styles from './reviewEntryStyles.css';
+import utils from "../utils.js";
 
-import utils from '../utils.js';
-
-
-const ReviewEntry = (props) => {
-  const date = utils.formatDate(props.review._date);
+const ReviewEntry = props => {
+  console.log("props", props);
+  const date = utils.formatDate(props.review.review_date);
 
   return (
-    <div styleName='review-entry'>
-      <div styleName='header-container'>
-        <div styleName='photo-container'>
-          <img styleName='avatar' src={props.review.photo} height='48' width='48'></img>
+    <div styleName="review-entry">
+      <div styleName="header-container">
+        <div styleName="photo-container">
+          <img
+            styleName="avatar"
+            src={props.review.photo}
+            height="48"
+            width="48"
+          />
         </div>
-        <div styleName='review-info'>
-          <div styleName='user-name'>
-            {props.review.name}
-          </div>
+        <div styleName="review-info">
+          <div styleName="user-name">{props.review.name}</div>
           <div>
-            <span styleName='review-date'>
-              {date}
-            </span>
+            <span styleName="review-date">{date}</span>
           </div>
         </div>
       </div>
-      <div styleName='content'>
-        {props.review.content} 
-      </div>
+      <div styleName="content">{props.review.content}</div>
     </div>
-  ); 
-}
+  );
+};
 
-export default CSSModules(ReviewEntry, styles, {allowMultiple: true});
+export default CSSModules(ReviewEntry, styles, { allowMultiple: true });
