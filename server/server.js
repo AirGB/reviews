@@ -15,7 +15,15 @@ app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.get("/api/listing/:listingid/overview", (req, res) => {
   const listing_id = Number(req.params.listingid);
   console.log(listing_id);
-  let ratingsObj = {};
+  let ratingsObj = {
+    accuracy: 0,
+    communication: 0,
+    cleanliness: 0,
+    location: 0,
+    check_in: 0,
+    _value: 0,
+    avg: 0
+  };
 
   db.getRatings(listing_id, function(err, results) {
     if (err) {
@@ -23,40 +31,48 @@ app.get("/api/listing/:listingid/overview", (req, res) => {
       return;
     }
 
-    ratingsObj.total = results.length;
-    ratingsObj.accuracy = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
-    ratingsObj.communication =
-      Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
-    ratingsObj.cleanliness = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
-    ratingsObj.location = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
-    ratingsObj.check_in = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
-    ratingsObj._value = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
-    ratingsObj.avg =
-      Math.round(
-        ((ratingsObj.accuracy +
-          ratingsObj.communication +
-          ratingsObj.cleanliness +
-          ratingsObj.location +
-          ratingsObj.check_in +
-          ratingsObj._value) /
-          6) *
-          2
-      ) / 2;
-    // results.forEach(function(ratings) {
-    //   ratingsObj.avg += ratings.accuracy;
-    //   ratingsObj.accuracy += ratings.accuracy;
-    //   ratingsObj.avg += ratings.communication;
-    //   ratingsObj.communication += ratings.communication;
-    //   ratingsObj.avg += ratings.cleanliness;
-    //   ratingsObj.cleanliness += ratings.cleanliness;
-    //   ratingsObj.avg += ratings.location;
-    //   ratingsObj.location += ratings.location;
-    //   ratingsObj.avg += ratings.check_in;
-    //   ratingsObj.check_in += ratings.check_in;
-    //   ratingsObj.avg += ratings._value;
-    //   ratingsObj._value += ratings._value;
-    //   console.log(ratings.accuracy);
-    // });
+    // ratingsObj.total = results.length;
+    // ratingsObj.accuracy = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    // ratingsObj.communication =
+    //   Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    // ratingsObj.cleanliness = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    // ratingsObj.location = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    // ratingsObj.check_in = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    // ratingsObj._value = Math.round((Math.random() * (4 - 1) + 1) * 2) / 2;
+    // ratingsObj.avg =
+    //   Math.round(
+    //     ((ratingsObj.accuracy +
+    //       ratingsObj.communication +
+    //       ratingsObj.cleanliness +
+    //       ratingsObj.location +
+    //       ratingsObj.check_in +
+    //       ratingsObj._value) /
+    //       6) *
+    //       2
+    //   ) / 2;
+
+    results.rows.forEach(function(ratings) {
+      console.log("im result inside", ratings);
+      ratingsObj.avg += ratings.accuracy;
+      ratingsObj.accuracy += ratings.accuracy;
+      ratingsObj.avg += ratings.communication;
+      ratingsObj.communication += ratings.communication;
+      ratingsObj.avg += ratings.cleanliness;
+      ratingsObj.cleanliness += ratings.cleanliness;
+      ratingsObj.avg += ratings.location;
+      ratingsObj.location += ratings.location;
+      ratingsObj.avg += ratings.check_in;
+      ratingsObj.check_in += ratings.check_in;
+      ratingsObj.avg += ratings.is_value;
+      ratingsObj._value += ratings.is_value;
+    });
+
+    // [ { accuracy: 3,
+    // communication: 1,
+    // cleanliness: 1,
+    // location: 4,
+    // check_in: 2,
+    // is_value: 2 } ]
 
     // ratingsObj.avg = Math.round((ratingsObj.avg/ (results.length * 6)) * 2) / 2;
     // ratingsObj.accuracy = Math.round((ratingsObj.accuracy / results.length) * 2) / 2;
@@ -65,24 +81,24 @@ app.get("/api/listing/:listingid/overview", (req, res) => {
     // ratingsObj.location = Math.round((ratingsObj.location / results.length) * 2) / 2;
     // ratingsObj.check_in = Math.round((ratingsObj.check_in / results.length) * 2) / 2;
     // ratingsObj._value = Math.round((ratingsObj._value / results.length) * 2) / 2;
-
+    console.log("im ratingsObj", ratingsObj);
     res.status(200).json(ratingsObj);
   });
 });
 
-app.get("/api/listing/:listingid/reviews", (req, res) => {
-  const listing_id = Number(req.params.listingid);
-  console.log(listing_id);
-
-  db.getReviews(listing_id, function(err, results) {
-    if (err) {
-      console.log("err in server - reviews: ", err);
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
+// app.get("/api/listing/:listingid/reviews", (req, res) => {
+//   const listing_id = Number(req.params.listingid);
+//   console.log(listing_id);
+//
+//   db.getReviews(listing_id, function(err, results) {
+//     if (err) {
+//       console.log("err in server - reviews: ", err);
+//       return;
+//     }
+//
+//     res.status(200).json(results.rows);
+//   });
+// });
 
 app.listen(3002, console.log("Listening on port 3002"));
 

@@ -1,11 +1,11 @@
-import React from 'react';
-import axios from 'axios';
-import path from 'path';
-import Pagination from  './Pagination.jsx';
-import ReviewList from './ReviewList.jsx';
-import Overview from './Overview.jsx';
-import CSSModules from 'react-css-modules';
-import styles from './app.css';
+import React from "react";
+import axios from "axios";
+import path from "path";
+import Pagination from "./Pagination.jsx";
+import ReviewList from "./ReviewList.jsx";
+import Overview from "./Overview.jsx";
+import CSSModules from "react-css-modules";
+import styles from "./app.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class App extends React.Component {
       currentReviews: [],
       currentPage: null,
       totalPages: null,
-      ratings: {},
+      ratings: {}
     };
 
     this.onPageChanged = this.onPageChanged.bind(this);
@@ -27,7 +27,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getRatings();
-    this.getReviews();
+    // this.getReviews();
   }
 
   onPageChanged(data) {
@@ -44,22 +44,25 @@ class App extends React.Component {
     var listing_id = this.state.listing_id;
     var self = this;
 
-    axios.get(`http://localhost:3002/api/listing/${listing_id}/reviews`)
+    axios
+      .get(`http://localhost:3002/api/listing/${listing_id}/reviews`)
       .then(function(response) {
-        self.setState({allReviews: response.data});
+        self.setState({ allReviews: response.data });
       })
       .catch(function(err) {
         console.log(err);
       });
   }
 
-  getRatings() { 
+  getRatings() {
     var listing_id = this.state.listing_id;
     var self = this;
 
-    axios.get(`http://localhost:3002/api/listing/${listing_id}/overview`)
+    axios
+      .get(`http://localhost:3002/api/listing/${listing_id}/overview`)
       .then(function(response) {
-        self.setState({ratings: response.data});
+        self.setState({ ratings: response.data });
+        console.log(response.data);
       })
       .catch(function(err) {
         console.log(err);
@@ -75,16 +78,20 @@ class App extends React.Component {
     const totalReviews = allReviews.length;
 
     return (
-      <div styleName='main-container'>
+      <div styleName="main-container">
         <Overview ratings={this.state.ratings} />
-        <ReviewList reviews={currentReviews} getRef={this.getReference}/>
-        <Pagination revListRef={this.revListRef} totalRecords={totalReviews} pageNeighbours={1} onPageChanged={this.onPageChanged} />
+        <ReviewList reviews={currentReviews} getRef={this.getReference} />
+        <Pagination
+          revListRef={this.revListRef}
+          totalRecords={totalReviews}
+          pageNeighbours={1}
+          onPageChanged={this.onPageChanged}
+        />
       </div>
     );
   }
 }
 
 export default CSSModules(App, styles);
-
 
 // module.exports.App = App;
