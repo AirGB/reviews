@@ -121,8 +121,10 @@ app.put("/api/listing/:listingid/updatereview", (req, res) => {
     }
   });
 
-  res.send(req.body);
+  res.send("Updating review done");
 });
+
+// app.delete("/api/listing/:listingid/deletereview", (req, ))
 
 app.listen(3002, console.log("Listening on port 3002"));
 
