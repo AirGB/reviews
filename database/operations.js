@@ -54,11 +54,12 @@ const updateReview = (review, respondToServer) => {
 };
 
 // delete a review from listing
-const deleteReview = (review_id, respondToServer) => {
-  const qs = `DELETE FROM reviews where id = ${review_id}`;
+const deleteReview = (reviewId, respondToServer) => {
+  const qs = `DELETE FROM reviews where id = ${reviewId.id}`;
 
   db.query(qs, respondToServer);
 };
+
 module.exports = {
   getRatings: getRatings,
   getReviews: getReviews,
