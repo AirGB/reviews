@@ -11,7 +11,7 @@ CREATE TABLE listings (
 );
 
 CREATE TABLE reviews (
-  id int PRIMARY KEY,
+  id PRIMARY KEY SERIAL,
   listing_id int,
   user_id int,
   accuracy int,

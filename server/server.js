@@ -80,13 +80,13 @@ app.get("/api/listing/:listingid/overview", (req, res) => {
       Math.round((ratingsObj.check_in / results.rows.length) * 2) / 2;
     ratingsObj._value =
       Math.round((ratingsObj._value / results.rows.length) * 2) / 2;
+
     res.status(200).json(ratingsObj);
   });
 });
 
 app.get("/api/listing/:listingid/reviews", (req, res) => {
   const listing_id = Number(req.params.listingid);
-  console.log(listing_id);
 
   db.getReviews(listing_id, function(err, results) {
     if (err) {
@@ -94,10 +94,20 @@ app.get("/api/listing/:listingid/reviews", (req, res) => {
       return;
     }
 
-    console.log(results.rows);
-
     res.status(200).json(results.rows);
   });
+});
+
+app.post("/api/listing/:listingid/newreview", (req, res) => {
+  var review = req.body;
+  db.postReview(review, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+  });
+  res.send("Posting a review done");
 });
 
 app.listen(3002, console.log("Listening on port 3002"));

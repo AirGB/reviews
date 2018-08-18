@@ -7,7 +7,7 @@ import styles from "./reviewEntryStyles.css";
 import utils from "../utils.js";
 
 const ReviewEntry = props => {
-  console.log("props", props);
+  // console.log("props", props);
   const date = utils.formatDate(props.review.review_date);
 
   return (

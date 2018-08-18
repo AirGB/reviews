@@ -23,11 +23,13 @@ class App extends React.Component {
     this.onPageChanged = this.onPageChanged.bind(this);
     this.getReference = this.getReference.bind(this);
     this.revListRef = null;
+    this.postReview = this.postReview.bind(this);
   }
 
   componentDidMount() {
     this.getRatings();
     this.getReviews();
+    // this.postReview("hello world");
   }
 
   onPageChanged(data) {
@@ -35,7 +37,6 @@ class App extends React.Component {
     const { currentPage, totalPages, pageLimit } = data;
 
     const offset = (currentPage - 1) * pageLimit;
-    console.log("offset", offset);
     const currentReviews = allReviews.slice(offset, offset + pageLimit);
 
     this.setState({ currentPage, currentReviews, totalPages });
@@ -48,7 +49,6 @@ class App extends React.Component {
     axios
       .get(`http://localhost:3002/api/listing/${listing_id}/reviews`)
       .then(function(response) {
-        console.log("im response", response.data);
         self.setState({ allReviews: response.data });
       })
       .catch(function(err) {
@@ -64,9 +64,38 @@ class App extends React.Component {
       .get(`http://localhost:3002/api/listing/${listing_id}/overview`)
       .then(function(response) {
         self.setState({ ratings: response.data });
-        console.log(response.data);
       })
       .catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  postReview(review) {
+    var listing_id = this.state.listing_id;
+    var dummyReview = {
+      id: 10000001,
+      listing_id: 9999,
+      user_id: 1000,
+      accuracy: 4,
+      communication: 4,
+      cleanliness: 4,
+      communication: 4,
+      location: 4,
+      check_in: 4,
+      is_value: 4,
+      is_reported: false,
+      review_date: "2018-7-15",
+      content: "Hack Reactor world."
+    };
+    axios
+      .post(
+        `http://localhost:3002/api/listing/${listing_id}/newreview`,
+        dummyReview
+      )
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
         console.log(err);
       });
   }

@@ -1,21 +1,44 @@
 const db = require("./config.js");
 
+// get average ratings to render
 const getRatings = (listing_id, whenRatings) => {
   const qs = `SELECT accuracy, communication, cleanliness, location, check_in, is_value from reviews where listing_id = ${listing_id}`;
 
   db.query(qs, whenRatings);
 };
 
+// get user reviews
 const getReviews = (listing_id, whenReviews) => {
   const qs = `select users.name, users.photo, reviews.review_date, reviews.content, reviews.is_reported from users JOIN reviews on reviews.listing_id = ${listing_id} AND users.id = reviews.user_id ORDER BY reviews.review_date DESC;`;
 
   db.query(qs, whenReviews);
 };
 
+// post a new review from listing
+const postReview = (review, respondToServer) => {
+  console.log("hello, review", review.content);
+  const qs = `INSERT INTO reviews (id, listing_id, user_id, accuracy, communication, cleanliness, location, check_in, is_value, review_date, content, is_reported) VALUES (${
+    review.id
+  }, ${review.listing_id}, ${review.user_id}, ${review.accuracy}, ${
+    review.communication
+  }, ${review.cleanliness}, ${review.location}, ${review.check_in}, ${
+    review.is_value
+  }, '${review.review_date}', '${review.content}', ${review.is_reported})`;
+
+  console.log("im qs", qs);
+
+  db.query(qs, respondToServer);
+};
+
+const updateR
+
 module.exports = {
   getRatings: getRatings,
-  getReviews: getReviews
+  getReviews: getReviews,
+  postReview: postReview
 };
+
+// const postReview = (listing_id, )
 
 // const getRatings = (listing_id, whenRatings) => {
 //   console.log("im whenRatings", whenRatings);
