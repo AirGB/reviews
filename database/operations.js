@@ -30,15 +30,42 @@ const postReview = (review, respondToServer) => {
   db.query(qs, respondToServer);
 };
 
-const updateR
+// update a review from listing
+const updateReview = (review, respondToServer) => {
+  // review input sample
+  // {id: 9999,
+  // changes: [["check_in", 0], ["is_value", 0]]
+  // }
 
+  var updates = JSON.parse(review.changes);
+  var customQuery = [];
+
+  for (var i = 0; i < updates.length; i++) {
+    var update = updates[i];
+
+    customQuery.push(`${update[0]} = ${update[1]}`);
+  }
+
+  const qs = `UPDATE reviews set ${customQuery.join(",")} where id = ${
+    review.id
+  }`;
+
+  db.query(qs, respondToServer);
+};
+
+// delete a review from listing
+const deleteReview = (review_id, respondToServer) => {
+  const qs = `DELETE FROM reviews where id = ${review_id}`;
+
+  db.query(qs, respondToServer);
+};
 module.exports = {
   getRatings: getRatings,
   getReviews: getReviews,
-  postReview: postReview
+  postReview: postReview,
+  updateReview: updateReview,
+  deleteReview: deleteReview
 };
-
-// const postReview = (listing_id, )
 
 // const getRatings = (listing_id, whenRatings) => {
 //   console.log("im whenRatings", whenRatings);
@@ -70,5 +97,23 @@ module.exports = {
 //     console.log(err);
 //   } else {
 //     console.log(result.rows);
+//   }
+// });
+
+// var review = { id: 10000002, changes: [["check_in", 0], ["is_value", 0]] };
+//
+// updateReview(review, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
+//   }
+// });
+
+// deleteReview(10000002, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(result);
 //   }
 // });

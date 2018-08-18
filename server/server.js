@@ -110,6 +110,20 @@ app.post("/api/listing/:listingid/newreview", (req, res) => {
   res.send("Posting a review done");
 });
 
+app.put("/api/listing/:listingid/updatereview", (req, res) => {
+  var review = req.body;
+
+  db.updateReview(review, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+  });
+
+  res.send(req.body);
+});
+
 app.listen(3002, console.log("Listening on port 3002"));
 
 module.exports = app;
