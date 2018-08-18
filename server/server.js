@@ -110,7 +110,7 @@ app.post("/api/listing/:listingid/newreview", (req, res) => {
   res.send("Posting a review done");
 });
 
-app.put("/api/listing/:listingid/updatereview", (req, res) => {
+app.put("/api/listing/:listingid/:reviewid/updatereview", (req, res) => {
   var review = req.body;
 
   db.updateReview(review, (err, result) => {
@@ -124,7 +124,7 @@ app.put("/api/listing/:listingid/updatereview", (req, res) => {
   res.send("Updating review done");
 });
 
-app.delete("/api/listing/:listingid/deletereview", (req, res) => {
+app.delete("/api/listing/:listingid/:reviewid/deletereview", (req, res) => {
   var reviewId = req.body;
 
   db.deleteReview(reviewId, (err, result) => {
