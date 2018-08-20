@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, "/../client/dist")));
 
 app.get("/api/listing/:listingid/overview", (req, res) => {
   const listing_id = Number(req.params.listingid);
-  console.log(listing_id);
+  // console.log(listing_id);
   let ratingsObj = {
     accuracy: 0,
     communication: 0,
