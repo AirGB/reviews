@@ -1,12 +1,14 @@
 config:
-  target: 'http://localhost:3002/'
+  target: "http://localhost:3002"
   phases:
     - duration: 60
       arrivalRate: 20
-  defaults:
-    headers:
-      x-my-service-auth: '987401838271002188298567'
+  variables:
+    listingid:
+      - [9999]
 scenarios:
   - flow:
-    - get:
-        url: "/docs"
+    - loop:
+      - get:
+          url: "/api/listing/{{$loopElement}}/overview"
+      over: listingid
