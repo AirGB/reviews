@@ -16,7 +16,6 @@ const getReviews = (listing_id, whenReviews) => {
 
 // post a new review from listing
 const postReview = (review, respondToServer) => {
-  console.log("im review in db", review);
   const qs = `INSERT INTO reviews (listing_id, user_id, accuracy, communication, cleanliness, location, check_in, is_value, review_date, content, is_reported) VALUES (${
     review.listing_id
   }, ${review.user_id}, ${review.accuracy}, ${review.communication}, ${

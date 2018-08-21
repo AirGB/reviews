@@ -3,6 +3,9 @@
     phases:
       - duration: 60
         arrivalRate: 1
+    variables:
+      listingid:
+        - [9999999, 9999998, 9999997, 9999996, 9999995]
     payload:
       path: "postreviews.csv"
       fields:
@@ -18,7 +21,8 @@
         - "content"
         - "is_reported"
   scenarios:
-    - flow:
+    - name: "virtual users for post requests in 60 secs"
+      flow:
         - post:
             url: "/api/listing/newreview"
             json:
@@ -33,3 +37,11 @@
               review_date: "{{ review_date }}"
               content: "{{ content }}"
               is_reported: "{{ is_reported }}"
+      weight: 2
+    - name: "Getting ratings"
+      flow:
+      - loop:
+        - get:
+            url: "/api/listing/{{$loopElement}}/overview"
+        over: "listingid"
+        weight: 8
