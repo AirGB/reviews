@@ -89,7 +89,7 @@ class App extends React.Component {
     };
     axios
       .post(
-        `http://localhost:3002/api/listing/${listing_id}/newreview`,
+        `http://localhost:3002/api/listing/newreview`,
         dummyReview
       )
       .then(response => {

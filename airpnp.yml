@@ -1,43 +1,35 @@
-config:
-  target: "http://localhost:3002"
-  phases:
-    - duration: 60
-      arrivalRate: 140
-  payload:
-    path: "./postreviews.csv"
-    fields:
-      - "listing_id"
-      - "user_id"
-      - "accuracy"
-      - "communication"
-      - "cleanliness"
-      - "location"
-      - "check_in"
-      - "is_value"
-      - "review_date"
-      - "content"
-      - "is_reported"
-  variables:
-    listingid:
-      - [9999999, 9999998, 9999997, 9999996, 9999995]
-scenarios:
-  - name: "Getting ratings"
-    flow:
-    - loop:
-      - get:
-          url: "/api/listing/{{$loopElement}}/overview"
-      over: listingid
-    - post:
-        url: "/api/listing/9999/newreview"
-        json:
-          listing_id: "{{listing_id}}"
-          user_id: "{{user_id}}"
-          accuracy: "{{accuracy}}"
-          communication: "{{communication}}"
-          cleanliness: "{{cleanliness}}"
-          location: "{{location}}"
-          check_in: "{{check_in}}"
-          is_value: "{{is_value}}"
-          review_date: "{{review_date}}"
-          content: "{{content}}"
-          is_reported: "{{is_reported}}"
+  config:
+    target: "http://localhost:3002"
+    phases:
+      - duration: 60
+        arrivalRate: 1
+    payload:
+      path: "postreviews.csv"
+      fields:
+        - "listing_id"
+        - "user_id"
+        - "accuracy"
+        - "communication"
+        - "cleanliness"
+        - "location"
+        - "check_in"
+        - "is_value"
+        - "review_date"
+        - "content"
+        - "is_reported"
+  scenarios:
+    - flow:
+        - post:
+            url: "/api/listing/newreview"
+            json:
+              listing_id: "{{ listing_id }}"
+              user_id: "{{ user_id }}"
+              accuracy: "{{ accuracy }}"
+              communication: "{{ communication }}"
+              cleanliness: "{{ cleanliness }}"
+              location: "{{ location }}"
+              check_in: "{{ check_in}}"
+              is_value: "{{ is_value }}"
+              review_date: "{{ review_date }}"
+              content: "{{ content }}"
+              is_reported: "{{ is_reported }}"

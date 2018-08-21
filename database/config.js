@@ -1,10 +1,16 @@
 const pg = require("pg");
-const db = new pg.Pool({
-  user: "user",
-  host: "127.0.0.1",
-  database: "postgres",
-  port: 5432
-});
+const port = process.env.RDS_PORT || 5432;
+const host = process.env.RDS_HOSTNAME || 'localhost';
+// const db = new pg.Client({
+//   user: "user",
+//   host: "127.0.0.1",
+//   database: "postgres",
+//   port: 5432
+// });
+
+const connectionStr = "postgres://localhost/postgres"
+var db = new pg.Client(connectionStr);
+db.connect();
 
 module.exports = db;
 

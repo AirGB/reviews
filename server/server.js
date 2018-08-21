@@ -99,16 +99,17 @@ app.get("/api/listing/:listingid/reviews", (req, res) => {
   });
 });
 
-app.post("/api/listing/:listingid/newreview", (req, res) => {
+app.post("/api/listing/newreview", (req, res) => {
   var review = req.body;
+  console.log("ABOUT TO POST req.body = ", req.body)
   db.postReview(review, (err, result) => {
     if (err) {
-      console.log(err);
+      console.log("THERE IS AN ERROR BACK AT THE SERVER", err);
     } else {
-      console.log(result);
+      res.send(result);
     }
   });
-  res.send("Posting a review done");
+
 });
 
 app.put("/api/listing/:listingid/:reviewid/updatereview", (req, res) => {

@@ -16,7 +16,7 @@ const getReviews = (listing_id, whenReviews) => {
 
 // post a new review from listing
 const postReview = (review, respondToServer) => {
-  console.log("hello, review", review.content);
+  console.log("im review in db", review);
   const qs = `INSERT INTO reviews (listing_id, user_id, accuracy, communication, cleanliness, location, check_in, is_value, review_date, content, is_reported) VALUES (${
     review.listing_id
   }, ${review.user_id}, ${review.accuracy}, ${review.communication}, ${
@@ -25,9 +25,14 @@ const postReview = (review, respondToServer) => {
     review.review_date
   }', '${review.content}', ${review.is_reported})`;
 
-  console.log("im qs", qs);
-
-  db.query(qs, respondToServer);
+  db.query(qs, (err, data) => {
+    if(err) {
+      console.log("ERROR IN THE DB", err);
+      respondToServer(err);
+      return;
+    }
+    respondToServer(null, data);
+  });
 };
 
 // update a review from listing
