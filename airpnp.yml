@@ -1,47 +1,37 @@
-  config:
-    target: "http://localhost:3002"
-    phases:
-      - duration: 60
-        arrivalRate: 1
-    variables:
-      listingid:
-        - [9999999, 9999998, 9999997, 9999996, 9999995]
-    payload:
-      path: "postreviews.csv"
-      fields:
-        - "listing_id"
-        - "user_id"
-        - "accuracy"
-        - "communication"
-        - "cleanliness"
-        - "location"
-        - "check_in"
-        - "is_value"
-        - "review_date"
-        - "content"
-        - "is_reported"
-  scenarios:
-    - name: "virtual users for post requests in 60 secs"
-      flow:
-        - post:
-            url: "/api/listing/newreview"
-            json:
-              listing_id: "{{ listing_id }}"
-              user_id: "{{ user_id }}"
-              accuracy: "{{ accuracy }}"
-              communication: "{{ communication }}"
-              cleanliness: "{{ cleanliness }}"
-              location: "{{ location }}"
-              check_in: "{{ check_in}}"
-              is_value: "{{ is_value }}"
-              review_date: "{{ review_date }}"
-              content: "{{ content }}"
-              is_reported: "{{ is_reported }}"
-      weight: 2
-    - name: "Getting ratings"
-      flow:
-      - loop:
-        - get:
-            url: "/api/listing/{{$loopElement}}/overview"
-        over: "listingid"
-        weight: 8
+config:
+  target: "http://localhost:3002"
+  phases:
+    - duration: 60
+      arrivalRate: 140
+  variables:
+    listingid:
+      - [98888, 90000, 8649634, 684504, 697686, 7943708, 3794480, 256001, 3577228]
+  processor: "./my-functions.js"
+
+scenarios:
+  - name: "User making new comments"
+    weight: 1
+    flow:
+    - function: "generateRandomData"
+    - post:
+        url: "/api/listing/newreview"
+        json:
+          listing_id: "{{ listing_a }}"
+          user_id: "{{ user_id }}"
+          accuracy: "{{ rating }}"
+          communication: "{{ rating }}"
+          cleanliness: "{{ rating }}"
+          location: "{{ rating }}"
+          check_in: "{{ rating }}"
+          is_value: "{{ rating }}"
+          review_date: "{{ date }}"
+          content: "{{ contentOne }}"
+          is_reported: "false"
+  - name: "Getting ratings"
+    weight: 99
+    flow:
+    - loop:
+      - get:
+          url: "/api/listing/{{ $loopElement }}/overview"
+      over: listingid
+      # count: 5
