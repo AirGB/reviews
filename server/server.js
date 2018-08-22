@@ -70,7 +70,7 @@ app.get("/api/listing/:listingid/overview", (req, res) => {
         ratingsObj._value =
           Math.round((ratingsObj._value / results.rows.length) * 2) / 2;
           console.log(ratingsObj);
-          client.setex(listing_id, 180, ratingsObj);
+          client.setex(listing_id, 180, JSON.stringify(ratingsObj));
           res.status(200).json(ratingsObj);
       })
     }
