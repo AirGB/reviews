@@ -69,8 +69,9 @@ app.get("/api/listing/:listingid/overview", (req, res) => {
           Math.round((ratingsObj.check_in / results.rows.length) * 2) / 2;
         ratingsObj._value =
           Math.round((ratingsObj._value / results.rows.length) * 2) / 2;
-
-        res.status(200).json(ratingsObj);
+          console.log(ratingsObj);
+          client.setex(listing_id, 180, ratingsObj);
+          res.status(200).json(ratingsObj);
       })
     }
   });
