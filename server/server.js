@@ -7,7 +7,10 @@ const responseTime = require('response-time');
 const redis = require('redis');
 
 const app = express();
-const client = redis.createClient();
+const client = redis.createClient({
+    host: 'redis'
+});
+// console.log(client);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

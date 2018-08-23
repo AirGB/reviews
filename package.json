@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest --coverage",
     "build": "webpack -d --watch",
-    "start": "nodemon ./server/server.js"
+    "start": "node ./server/server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -24,6 +24,8 @@
     "pg-promise": "^8.4.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "redis": "^2.8.0",
+    "response-time": "^2.3.2",
     "webpack": "^3.12.0",
     "xml-js": "^1.6.7"
   },

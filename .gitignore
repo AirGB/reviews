@@ -3,3 +3,4 @@ node_modules
 *.csv
 apache-cassandra-3.11.3
 newrelic.js
+postgres-database.pem
