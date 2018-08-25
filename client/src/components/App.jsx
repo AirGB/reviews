@@ -47,7 +47,7 @@ class App extends React.Component {
     var self = this;
 
     axios
-      .get(`http://localhost:3002/api/listing/${listing_id}/reviews`)
+      .get(`/api/listing/${listing_id}/reviews`)
       .then(function(response) {
         self.setState({ allReviews: response.data });
       })
@@ -61,7 +61,7 @@ class App extends React.Component {
     var self = this;
 
     axios
-      .get(`http://localhost:3002/api/listing/${listing_id}/overview`)
+      .get(`/api/listing/${listing_id}/overview`)
       .then(function(response) {
         self.setState({ ratings: response.data });
       })
@@ -89,7 +89,7 @@ class App extends React.Component {
     };
     axios
       .post(
-        `http://localhost:3002/api/listing/newreview`,
+        `/api/listing/newreview`,
         dummyReview
       )
       .then(response => {

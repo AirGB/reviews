@@ -7,9 +7,13 @@ const responseTime = require('response-time');
 const redis = require('redis');
 
 const app = express();
+// const client = redis.createClient((
+//   6378, 'redis'
+// ));
 const client = redis.createClient({
     host: 'redis'
 });
+// const client = redis.createClient();
 // console.log(client);
 
 app.use(bodyParser.json());
@@ -18,6 +22,8 @@ app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(responseTime());
 
 // app.get('/', (req, res) => res.send('Hello World!'));
+
+app.get("")
 
 app.get("/api/listing/:listingid/overview", (req, res) => {
   const listing_id = Number(req.params.listingid);
@@ -73,7 +79,7 @@ app.get("/api/listing/:listingid/overview", (req, res) => {
         ratingsObj._value =
           Math.round((ratingsObj._value / results.rows.length) * 2) / 2;
           console.log(ratingsObj);
-          client.setex(listing_id, 180, JSON.stringify(ratingsObj));
+          client.setex(listing_id, 1800, JSON.stringify(ratingsObj));
           res.status(200).json(ratingsObj);
       })
     }
